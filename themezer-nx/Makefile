@@ -37,7 +37,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 #   of a homebrew executable (.nro). This is intended to be used for sysmodules.
 #   NACP building is skipped as well.
 #---------------------------------------------------------------------------------
-APP_TITLE   := Themezer-NX
+APP_TITLE   := 
 APP_AUTHOR  := Such Meme, Many Skill
 APP_VERSION := 2.0.0
 
