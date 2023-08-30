@@ -30,7 +30,7 @@ int DownloadThemeButton(Context_t *ctx){
     SDL_Texture *screenshot = ScreenshotToTexture();
     ShapeLinkAdd(&render, ImageCreate(screenshot, POS(0, 0, SCREEN_W, SCREEN_H), IMAGE_CLEANUPTEX), ImageType);
     ShapeLinkAdd(&render, RectangleCreate(POS(0, 0, SCREEN_W, SCREEN_H), COLOR(0,0,0,200), 1), RectangleType);
-    TextCentered_t *text = TextCenteredCreate(POS(0, 0, SCREEN_W, SCREEN_H), "Downloading Theme...", COLOR_WHITE, FONT_TEXT[FSize45]);
+    TextCentered_t *text = TextCenteredCreate(POS(0, 0, SCREEN_W, SCREEN_H), "Downloade Theme...", COLOR_WHITE, FONT_TEXT[FSize45]);
     ShapeLinkAdd(&render, text, TextCenteredType);
 
     RenderShapeLinkList(render);
@@ -41,7 +41,7 @@ int DownloadThemeButton(Context_t *ctx){
     if (res){
         ShapeLinkAdd(&render, ButtonCreate(POS(0, 0, SCREEN_W, SCREEN_H), COLOR(0, 0, 0, 0), COLOR(0, 0, 0, 0), COLOR(0, 0, 0, 0), COLOR(0, 0, 0, 0), 0, ButtonStyleFlat, NULL, NULL, exitFunc), ButtonType);
         free(text->text.text);
-        text->text.text = CopyTextUtil("Download failed! Press A or tap the screen to continue");
+        text->text.text = CopyTextUtil("Download fehlgeschlagen! Druecke A oder tippe auf den Bildschirm um fortzufahren");
         MakeMenu(render, ButtonHandlerBExit, NULL);
     }
 
@@ -53,11 +53,11 @@ int DownloadThemeButton(Context_t *ctx){
 }
 
 int InstallThemeButton(Context_t *ctx){
-    ShapeLinker_t *out = CreateBaseMessagePopup("Install Queued!", "Install Queued. Exit the app to apply the theme.\nYou can exit the app by pressing the + button or by selecting 'Exit Themezer-NX' in the 'Type' selection menu.\nPress A or tap the screen to continue");
+    ShapeLinker_t *out = CreateBaseMessagePopup("Installation in Warteschlange!", "Installation in Warteschlange. Beende die App, um das Theme anzuwenden.\nDu kannst die App verlassen, indem du die + Taste drueckst oder 'Themezer-NX beenden' im 'Typ'-Auswahlmenue benutzt.\nDruecke A oder tippe auf den Bildschirm, um fortzufahren");
 
     ShapeLinkAdd(&out, RectangleCreate(POS(250, 470, 780, 50), COLOR_CARDCURSOR, 1), RectangleType);
     ShapeLinkAdd(&out, ButtonCreate(POS(0, 0, SCREEN_W, SCREEN_H), COLOR(0,0,0,0), COLOR(0,0,0,0), COLOR(0,0,0,0), COLOR(0,0,0,0), 0, ButtonStyleFlat, NULL, NULL, exitFunc), ButtonType);
-    ShapeLinkAdd(&out, TextCenteredCreate(POS(250, 470, 780, 50), "Got it!", COLOR_WHITE, FONT_TEXT[FSize28]), TextCenteredType);
+    ShapeLinkAdd(&out, TextCenteredCreate(POS(250, 470, 780, 50), "Verstanden!", COLOR_WHITE, FONT_TEXT[FSize28]), TextCenteredType);
 
     RequestInfo_t *rI = ShapeLinkFind(ctx->all, DataType)->item;
     ThemeInfo_t *target = rI->themes;
@@ -99,10 +99,10 @@ ShapeLinker_t *CreateSelectMenu(RequestInfo_t *rI){
 
     ShapeLinkAdd(&out, ImageCreate(XIcon, POS(SCREEN_W - 100, 50, 50, 50), 0), ImageType);
 
-    ShapeLinkAdd(&out, ButtonCreate(POS(915, 110, SCREEN_W - 980, 60), COLOR_INSTBTN, COLOR_INSTBTNPRS, COLOR_WHITE, COLOR_INSTBTNSEL, (GetInstallButtonState()) ? 0 : BUTTON_DISABLED, ButtonStyleFlat, "Install", FONT_TEXT[FSize30], InstallThemeButton), ButtonType);
-    ShapeLinkAdd(&out, ButtonCreate(POS(915, 180, SCREEN_W - 980, 60), COLOR_DLBTN, COLOR_DLBTNPRS, COLOR_WHITE, COLOR_DLBTNSEL, 0, ButtonStyleFlat, "Download Only", FONT_TEXT[FSize30], DownloadThemeButton), ButtonType);
+    ShapeLinkAdd(&out, ButtonCreate(POS(915, 110, SCREEN_W - 980, 60), COLOR_INSTBTN, COLOR_INSTBTNPRS, COLOR_WHITE, COLOR_INSTBTNSEL, (GetInstallButtonState()) ? 0 : BUTTON_DISABLED, ButtonStyleFlat, "Installiere", FONT_TEXT[FSize30], InstallThemeButton), ButtonType);
+    ShapeLinkAdd(&out, ButtonCreate(POS(915, 180, SCREEN_W - 980, 60), COLOR_DLBTN, COLOR_DLBTNPRS, COLOR_WHITE, COLOR_DLBTNSEL, 0, ButtonStyleFlat, "Nur Downloaden", FONT_TEXT[FSize30], DownloadThemeButton), ButtonType);
 
-    char *info = CopyTextArgsUtil("By %s\n\nLast Updated: %s\n\nID: t%s\nDownloads: %d\nLike Count: %d\n\nMenu: %s", target->creator, strtok(target->lastUpdated, "T"), target->id, target->dlCount, target->likeCount, targetOptions[target->target]);
+    char *info = CopyTextArgsUtil("Von %s\n\nZuletzt aktualisiert: %s\n\nID: t%s\nDownloads: %d\nAnzahl der Likes: %d\n\nMenue: %s", target->creator, strtok(target->lastUpdated, "T"), target->id, target->dlCount, target->likeCount, targetOptions[target->target]);
     ShapeLinkAdd(&out, TextCenteredCreate(POS(920, 250, SCREEN_W - 990, 420), info, COLOR_WHITE, FONT_TEXT[FSize23]), TextBoxType);
     if (target->description != NULL && target->description[0]) {
         ShapeLinkAdd(&out, TextCenteredCreate(POS(60, 590, SCREEN_W - 120, 82), target->description, COLOR_WHITE, FONT_TEXT[FSize23]), TextBoxType);

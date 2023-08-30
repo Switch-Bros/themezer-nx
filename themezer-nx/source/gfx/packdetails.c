@@ -18,7 +18,7 @@ int ShowPackDetails(Context_t *ctx){
     RequestInfo_t *rI = ShapeLinkFind(ctx->all, DataType)->item;
     RequestInfo_t customRI = {3, 0, 0, 0, 0, 0, NULL, 0, 0, rI->packs[gv->highlight].themeCount, NULL, rI->packs[gv->highlight].themes, {NULL, 0, NULL, 1}, NULL};
 
-    printf("Showing pack details...\nCount: %d\nEntry: %d\n", rI->packs[gv->highlight].themeCount, gv->highlight);
+    printf("Pack-Details werden angezeigt...\nAnzahl: %d\nEintrag: %d\n", rI->packs[gv->highlight].themeCount, gv->highlight);
 
     ShapeLinker_t *items = GenListItemList(&customRI);
     if (!rI->packs[gv->highlight].isDlDone)

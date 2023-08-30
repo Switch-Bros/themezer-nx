@@ -17,22 +17,22 @@
 ShapeLinker_t *errorMenu(char *message, int errLoc){
     ShapeLinker_t *out = NULL;
     
-    ShapeLinkAdd(&out, ButtonCreate(POS(0, 50, SCREEN_W, SCREEN_H - 50), COLOR_MAINBG, COLOR_CURSORPRESS, COLOR_WHITE, COLOR_MAINBG, 0, ButtonStyleFlat, "Could not connect to the Themezer. Press A to exit", FONT_TEXT[FSize35], exitFunc), ButtonType);
+    ShapeLinkAdd(&out, ButtonCreate(POS(0, 50, SCREEN_W, SCREEN_H - 50), COLOR_MAINBG, COLOR_CURSORPRESS, COLOR_WHITE, COLOR_MAINBG, 0, ButtonStyleFlat, "Konnte keine Verbindung zu Themezer herstellen. Druecke A zum beenden.", FONT_TEXT[FSize35], exitFunc), ButtonType);
     if (message)
         ShapeLinkAdd(&out, TextCenteredCreate(POS(0, SCREEN_H - 50, 1280, 50), message, COLOR_RED, FONT_TEXT[FSize30]), TextCenteredType);
 
     bool ShowErrMenu = (errLoc == 1 && cURLErrBuff[0] != '\0');
-    ShapeLinkAdd(&out, ButtonCreate(POS(0, 0, SCREEN_W, 50), COLOR_TOPBAR, COLOR_BTN4, COLOR_WHITE, COLOR_TOPBARCURSOR, (ShowErrMenu) ? 0 : BUTTON_DISABLED, ButtonStyleTopStrip, (ShowErrMenu) ? "Details" : "Details Unavailable", FONT_TEXT[FSize30], ShowCurlError), ButtonType);
+    ShapeLinkAdd(&out, ButtonCreate(POS(0, 0, SCREEN_W, 50), COLOR_TOPBAR, COLOR_BTN4, COLOR_WHITE, COLOR_TOPBARCURSOR, (ShowErrMenu) ? 0 : BUTTON_DISABLED, ButtonStyleTopStrip, (ShowErrMenu) ? "Details" : "Details nicht verfuegbar", FONT_TEXT[FSize30], ShowCurlError), ButtonType);
 
     return out;
 }
 
 ShapeLinker_t *WarnMenu(){
-    ShapeLinker_t *warnMenu = CreateBaseMessagePopup("Warning!", "The NXThemes Installer could not be found!\nMake sure it is in the following location:\n\nsd:/switch/NXThemesInstaller.nro");
+    ShapeLinker_t *warnMenu = CreateBaseMessagePopup("Warnung!", "NXThemesInstaller wurde nicht gefunden!\nStelle sicher das es sich hier befindet:\n\nsd:/switch/NXThemesInstaller/NXThemesInstaller.nro");
 
     ShapeLinkAdd(&warnMenu, RectangleCreate(POS(250, 470, 780, 50), COLOR_CURSOR, 1), RectangleType);
     ShapeLinkAdd(&warnMenu, ButtonCreate(POS(0, 0, SCREEN_W, SCREEN_H), COLOR(0,0,0,0), COLOR(0,0,0,0), COLOR(0,0,0,0), COLOR(0,0,0,0), 0, ButtonStyleFlat, NULL, NULL, exitFunc), ButtonType);
-    ShapeLinkAdd(&warnMenu, TextCenteredCreate(POS(250, 470, 780, 50), "Alright", COLOR_WHITE, FONT_TEXT[FSize28]), TextCenteredType);
+    ShapeLinkAdd(&warnMenu, TextCenteredCreate(POS(250, 470, 780, 50), "Okay", COLOR_WHITE, FONT_TEXT[FSize28]), TextCenteredType);
 
     return warnMenu;
 }
@@ -81,13 +81,13 @@ int main(int argc, char* argv[])
             AddThemeImagesToDownloadQueue(&rI, true);
         }
         else {
-            printf(CopyTextArgsUtil("Theme array gen failed, %d", res));
-            errMessage = CopyTextArgsUtil("Parsing Json data failed! Error Code: %d", res);
+            printf(CopyTextArgsUtil("Theme-Array-Generierung fehlgeschlagen, %d", res));
+            errMessage = CopyTextArgsUtil("Parsen der JSON-Daten ist fehlgeschlagen! Fehlercode: %d", res);
         }       
     }
     else {
-        printf("Request failed");
-        errMessage = CopyTextArgsUtil("Themezer request failed! Error Code: %d", res);
+        printf("Anfrage fehlgeschlagen");
+        errMessage = CopyTextArgsUtil("Themezer-Anfrage fehlgeschlagen! Fehlercode: %d", res);
         errLoc = 1;
     }
         
@@ -102,10 +102,10 @@ int main(int argc, char* argv[])
     if (themeInstallerLocation){
         if (CheckIfInstallsQueued()){
             if (R_SUCCEEDED(envSetNextLoad(themeInstallerLocation, GetInstallArgs(themeInstallerLocation)))){
-                printf("Env set!\n");
+                printf("Umgebung festgelegt!\n");
             }
             else {
-                printf("Env ded!\n");
+                printf("Umgebung entfernt!\n");
             }
         }
     }

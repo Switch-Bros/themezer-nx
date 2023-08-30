@@ -39,7 +39,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 #---------------------------------------------------------------------------------
 APP_TITLE   := 
 APP_AUTHOR  := Such Meme, Many Skill
-APP_VERSION := 2.0.0
+APP_VERSION := 2.1.0
 
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build

@@ -61,7 +61,7 @@ int ShowCurlError(Context_t *ctx){
 
     ShapeLinkAdd(&menu, ButtonCreate(POS(0, 0, SCREEN_W, SCREEN_H), COLOR_MAINBG, COLOR_MAINBG, COLOR_WHITE, COLOR_MAINBG, 0, ButtonStyleFlat, NULL, NULL, exitFunc), ButtonType);
     ShapeLinkAdd(&menu, RectangleCreate(POS(0, 0, SCREEN_W, 50), COLOR_TOPBAR, 1), RectangleType);
-    ShapeLinkAdd(&menu, TextCenteredCreate(POS(0, 0, SCREEN_W, 50), "Back", COLOR_WHITE, FONT_TEXT[FSize30]), TextCenteredType);
+    ShapeLinkAdd(&menu, TextCenteredCreate(POS(0, 0, SCREEN_W, 50), "Zurueck", COLOR_WHITE, FONT_TEXT[FSize30]), TextCenteredType);
 
     ShapeLinkAdd(&menu, TextCenteredCreate(POS(10, 60, SCREEN_W - 20, SCREEN_H - 70), cURLErrBuff, COLOR_WHITE, FONT_TEXT[FSize25]), TextBoxType);
 
@@ -72,15 +72,15 @@ int ShowCurlError(Context_t *ctx){
 }
 
 int ShowConnErrMenu(int res){
-    char *message = CopyTextArgsUtil("Something went wrong when connecting to the themezer server! Error Code: %d", res);
-    ShapeLinker_t *menu = CreateBaseMessagePopup("Connection Error!", message);
+    char *message = CopyTextArgsUtil("Beim Verbinden mit dem Themezer-Server ist etwas schiefgelaufen! Fehlercode: %d", res);
+    ShapeLinker_t *menu = CreateBaseMessagePopup("Verbindungsfehler!", message);
     free(message);
 
     bool showDetails = (cURLErrBuff[0] != '\0');
 
-    ShapeLinkAdd(&menu, ButtonCreate(POS(250, 470, (showDetails) ? 390 : 780, 50), COLOR_MAINBG, COLOR_RED, COLOR_WHITE, COLOR_CURSOR, 0, ButtonStyleBottomStrip, "Alright", FONT_TEXT[FSize28], exitFunc), ButtonType);
+    ShapeLinkAdd(&menu, ButtonCreate(POS(250, 470, (showDetails) ? 390 : 780, 50), COLOR_MAINBG, COLOR_RED, COLOR_WHITE, COLOR_CURSOR, 0, ButtonStyleBottomStrip, "Okay", FONT_TEXT[FSize28], exitFunc), ButtonType);
     if (showDetails)
-        ShapeLinkAdd(&menu, ButtonCreate(POS(640, 470, 390, 50), COLOR_MAINBG, COLOR_CURSORPRESS, COLOR_WHITE, COLOR_CURSOR, 0, ButtonStyleBottomStrip, "Show Details", FONT_TEXT[FSize28], ShowCurlError), ButtonType);
+        ShapeLinkAdd(&menu, ButtonCreate(POS(640, 470, 390, 50), COLOR_MAINBG, COLOR_CURSORPRESS, COLOR_WHITE, COLOR_CURSOR, 0, ButtonStyleBottomStrip, "Zeige Details", FONT_TEXT[FSize28], ShowCurlError), ButtonType);
 
     MakeMenu(menu, ButtonHandlerBExit, NULL);
     ShapeLinkDispose(&menu);
@@ -94,11 +94,11 @@ int MakeRequestAsCtx(Context_t *ctx, RequestInfo_t *rI){
 
     CleanupTransferInfo(rI);
 
-    printf("Making JSON request...\n");
+    printf("JSON-Anfrage wird erstellt...\n");
     if (!(res = MakeJsonRequest(GenLink(rI), &rI->response))){
-        printf("JSON request got! parsing...\n");
+        printf("JSON-Anfrage erhalten! Parse...\n");
         if (!(res = GenThemeArray(rI))){
-            printf("JSON data parsed!\n");
+            printf("JSON-Daten erfolgreich geparst!\n");
             items = GenListItemList(rI);
             AddThemeImagesToDownloadQueue(rI, true);
 
@@ -146,6 +146,6 @@ int MakeRequestAsCtx(Context_t *ctx, RequestInfo_t *rI){
         ShowConnErrMenu(res);
     }
 
-    printf("Res: %d\n", res);
+    printf("Ergebnis: %d\n", res);
     return res;
 }

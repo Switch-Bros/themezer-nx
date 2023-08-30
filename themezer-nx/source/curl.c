@@ -52,7 +52,7 @@ char *GenLink(RequestInfo_t *rI){
     free(searchQuoted);
     free(requestTarget);
 
-    printf("Request: %s\n\n", request);
+    printf("Anfrage: %s\n\n", request);
     return request;
 }
 
@@ -123,7 +123,7 @@ int MakeJsonRequest(char *url, cJSON **response){
             *response = cJSON_Parse(req.buffer);
         }
 
-        printf("Buffer: %s\n", req.buffer);
+        printf("Puffer: %s\n", req.buffer);
         free(req.buffer);
     }
 
@@ -161,7 +161,7 @@ int hasError(cJSON *root){
             char *message = cJSON_GetStringValue(messageItem);
             
             if (message){
-                ShapeLinker_t *menu = CreateBaseMessagePopup("Error during request", message);
+                ShapeLinker_t *menu = CreateBaseMessagePopup("Anfragefehler", message);
                 ShapeLinkAdd(&menu, ButtonCreate(POS(250, 470, 780, 50), COLOR_MAINBG, COLOR_CURSORPRESS, COLOR_WHITE, COLOR_CURSOR, 0, ButtonStyleBottomStrip, "Ok", FONT_TEXT[FSize28], exitFunc), ButtonType);
                 MakeMenu(menu, ButtonHandlerBExit, NULL);
                 ShapeLinkDispose(&menu);
@@ -180,7 +180,7 @@ char *GetThemeDownloadURL(char *id){
     char *out = NULL;
 
     if ((res = MakeJsonRequest(GenNxThemeReqLink(id), &list))){
-        printf("theme url parsing failed! code: %d\n", res);
+        printf("URL-Parsing für Theme fehlgeschlagen! Fehlercode: %d\n", res);
         return NULL;
     }
 
@@ -210,14 +210,14 @@ char *GetThemeDownloadURL(char *id){
 int DownloadThemeFromID(char *id, char *path){
     int res = 1;
     char *url = GetThemeDownloadURL(id);
-    printf("Url gathered: %s\n", url);
+    printf("URL gesammelt: %s\n", url);
 
     if (url){
         res = MakeDownloadRequest(url, path);
         free(url);
     }
 
-    printf("Res: %d", res);
+    printf("Ergebnis: %d", res);
     return res;
 }
 
@@ -328,7 +328,7 @@ int ParsePackList(PackInfo_t **storage, int size, cJSON *packList){
             packs[i].creator = SanitizeString(display_name->valuestring);
             packs[i].name = SanitizeString(name->valuestring);
             int arraySize = cJSON_GetArraySize(themes);
-            printf("Index: %d, size: %d\n", i, arraySize);
+            printf("Index: %d, Groesse: %d\n", i, arraySize);
             packs[i].themeCount = arraySize;
             if (ParseThemeList(&packs[i].themes, arraySize, themes))
                 return 2;
@@ -398,7 +398,7 @@ int GenThemeArray(RequestInfo_t *rI){
             
             if (packList){
                 if (ParsePackList(&rI->packs, rI->curPageItemCount, packList)){
-                    printf("Pack parser failed!");
+                    printf("Pack-Parser fehlgeschlagen!");
                     return -3;
                 }
                     
@@ -419,7 +419,7 @@ int GenThemeArray(RequestInfo_t *rI){
 ShapeLinker_t *GenListItemList(RequestInfo_t *rI){
     ShapeLinker_t *link = NULL;
 
-    printf("Gen: ArraySize: %d", rI->curPageItemCount);
+    printf("Generieren: Arraygroesse: %d", rI->curPageItemCount);
 
     for (int i = 0; i < rI->curPageItemCount; i++){
         ShapeLinkAdd(&link, ListItemCreate(COLOR(255,255,255,255), COLOR(170, 170, 170, 255), (rI->themes[i].preview) ? rI->themes[i].preview : loadingScreen, rI->themes[i].name, rI->themes[i].creator), ListItemType);
@@ -494,10 +494,10 @@ int HandleDownloadQueue(Context_t *ctx){
             curl_easy_getinfo(e, CURLINFO_PRIVATE, &index);
 
             if (msg->data.result != CURLE_OK){
-                printf("Something went fucky with the downloader, index %d, %d\n", *index, msg->data.result);
+                printf("Der Downloader hat verkackt, Index %d, %d\n", *index, msg->data.result);
             }
             else {
-                printf("Download of index %d finished!\n", *index);
+                printf("Download von Index %d abgeschlossen!\n", *index);
                 get_request_t *req = &rI->tInfo.transfers[*index].data;
                 rI->themes[*index].preview = LoadImageMemSDL(req->buffer, req->len);
                 if (gvLink != NULL){
@@ -512,7 +512,7 @@ int HandleDownloadQueue(Context_t *ctx){
     }
 
     if (!running_handles){
-        printf("Downloading done!\n");
+        printf("Download abgeschlossen!\n");
         CleanupTransferInfo(rI);
     }
 

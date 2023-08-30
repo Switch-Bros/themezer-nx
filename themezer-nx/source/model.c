@@ -1,25 +1,25 @@
 #include "model.h"
 
 const char *targetOptions[] = {
-    "Home Menu",
-    "Lock Screen",
-    "All Apps",
-    "Settings",
-    "Player Select",
-    "User Page",
-    "News",
-    "All",
-    "Packs"
+    "Homescreen",
+    "Sperrbildschirm",
+    "Alle Software",
+    "Einstellungen",
+    "Profilauswahl",
+    "Profilseite",
+    "Nachrichten",
+    "Alles",
+    "Pakete"
 };
 
 const char *sortOptions[] = {
-    "Last Updated",
+    "Letzte Update",
     "Downloads",
-    "Likes",
-    "Creation Date"
+    "Bewertung",
+    "Erstelldatum"
 };
 
 const char *orderOptions[] = {
-    "Descending",
-    "Ascending"
+    "Absteigend",
+    "Aufsteigend"
 };
